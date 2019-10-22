@@ -1,13 +1,13 @@
 import argparse
 from datetime import datetime
 
-from read_weather_record import Record_File
+from read_weather_record import RecordFile
 
-from calculate_result import monthly_computing_results
-from calculate_result import yearly_computing_results
+from calculate_result import MonthlyComputingResults
+from calculate_result import YearlyComputingResults
 
-from report import monthly_report
-from report import monthly_bonus_report
+from report import MonthlyReport
+from report import MonthlyBonusReport
 
 
 def parse_arguments():
@@ -22,44 +22,35 @@ def parse_arguments():
 def main():
     arguments = parse_arguments()
     
-    record = Record_File()
+    record = RecordFile()
     weather_records = record.read_file()
     
     if arguments.a:
-        argument_a_year = str(arguments.a.year)
-        argument_a_month = str(arguments.a.month)
+        
+        results = MonthlyComputingResults()
 
-        results = monthly_computing_results()
+        monthly_record = results.getting_monthly_record(weather_records,arguments.a)
+        results.get_temperature_averages(monthly_record)
 
-        get_objects = results.getting_monthly_objects(weather_records,argument_a_year,argument_a_month)
-        results.getmaximumaverage(get_objects)
-        results.getminimumaverage(get_objects)
-        results.gethumidityaverage(get_objects)
     if arguments.e:
-        argument_e_year = str(arguments.e.year)
 
-        results = yearly_computing_results()
+        results = YearlyComputingResults()
 
-        get_objects = results.getting_yearly_objects(weather_records,argument_e_year)
-        results.gethighesttemperature(get_objects)
-        results.getlowesttemperature(get_objects)
-        results.gethighesthumidity(get_objects)  
+        yearly_record = results.getting_yearly_record(weather_records,arguments.e)
+        results.get_temperature_averages(yearly_record)
+
     if arguments.c:
-        argument_c_year = str(arguments.c.year)
-        argument_c_month = str(arguments.c.month)
 
-        monthly_report_chart = monthly_report()
+        monthly_report_chart = MonthlyReport()
 
-        getting_objects = monthly_report_chart.getting_monthly_objects(weather_records,argument_c_year,argument_c_month)
-        print(arguments.c.strftime("%B %Y"))
+        getting_objects = monthly_report_chart.getting_monthly_record(weather_records,arguments.c)
         monthly_report_chart.monthly_chart(getting_objects)
         
         print("Bonus Task")
 
-        bonus_report = monthly_bonus_report()
+        bonus_report = MonthlyBonusReport()
 
-        report = bonus_report.getting_monthly_objects(weather_records,argument_c_year,argument_c_month)
-        print(arguments.c.strftime("%B %Y"))
+        report = bonus_report.getting_monthly_record(weather_records,arguments.c)
         bonus_report.bonus_chart(report)
     
      
