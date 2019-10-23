@@ -28,7 +28,7 @@ def main():
     if arguments.a:
         
         results = MonthlyComputingResults()
-
+        
         monthly_record = results.getting_monthly_record(weather_records,arguments.a)
         results.get_temperature_averages(monthly_record)
 

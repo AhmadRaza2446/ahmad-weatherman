@@ -7,7 +7,6 @@ class RecordFile:
     This class will work to read a file from directory and hold records
     """
 
-    
     def __init__(self):
         self.weather_records = []
            
@@ -29,5 +28,4 @@ class RecordFile:
                         'Min TemperatureC',' Mean Humidity'}})
 
                 file_open.close()
-        print(self.weather_records)
         return self.weather_records     
